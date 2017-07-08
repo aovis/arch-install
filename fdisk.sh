@@ -121,15 +121,15 @@ then
 				if [ $DEVICE_COUNT -eq 4 ];
 				then
 					#建立扩展分区
-					Extdisk "$DISK"
+					Extdisk "$DISK" > /dev/null 2>&1
 					#再次获取未使用的分区号
 					count_device "$DISK"
 					#进行分区
-					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT"
+					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT" > /dev/null 2>&1
 					#将记录追加到a.txt
 					echo "$s:$DISK$DEVICE_COUNT" >> a.txt
 				else   #分区号不为4  直接进行分区并将记录追加到a.txt
-					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT"
+					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT" > /dev/null 2>&1
 					echo "$s:$DISK$DEVICE_COUNT" >> a.txt
 				fi
 
@@ -138,12 +138,12 @@ then
 				echo "$DEVICE_COUNT"
 				if [ $DEVICE_COUNT -eq 4 ];
 				then
-					Extdisk "$DISK"
+					Extdisk "$DISK" >/dev/null 2>&1
 					count_device "$DISK"
-					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT"
+					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT" > /dev/null 2>&1
 					echo "$s:$DISK$DEVICE_COUNT" >> a.txt
 				else
-					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT"
+					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT" > /dev/null 2>&1
 					echo "$s:$DISK$DEVICE_COUNT" >> a.txt
 				fi
 			fi
