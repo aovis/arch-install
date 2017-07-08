@@ -1,5 +1,6 @@
 #!/bin/bash
 ##fdisk
+set -o errexit
 #DEVICE_COUNT 存放分区编号
 DEVICE_COUNT=""
 ##分区函数
@@ -84,7 +85,7 @@ EOF
 #询问是否分区
 read -p "Do you want to adjust the partition?(Input y to use fdisk or Enter to continue: " TMP
 #如果输入y 进行分区
-if [ "$TMP" == y ]
+if [ "$TMP" == "y" -o "$TMP" == "Y" ]
 then
 	#交互 显示复选框 选择要建立的挂载点
 	POINT=$(whiptail --title "Mount Point" --checklist \
@@ -154,14 +155,15 @@ then
 		echo "you chose chancle"
 	fi
 	#swap交换分区操作
-	read -p "Do you want to set up Swap " IS
-	if [ "$IS" == "y" ];
+	read -p "Do you want to set up Swap (y or n : " IS
+	if [ "$IS" == "y" -o "$IS" == "Y" ];
 	then
 		read -p "Set swap size: " Size
 		count_device "$DISK"
 		echo "$DEVICE_COUNT"
 		fdisk_run "$DISK" "$Size" "$DEVICE_COUNT"
 		echo "swap:$DISK$DEVICE_COUNT" >> a.txt
+
 	fi
 
 

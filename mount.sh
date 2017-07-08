@@ -1,4 +1,5 @@
 #!/bin/bash
+set -o errexit
 #循环读取 fdisk.sh 生成的分区信息
 for line in `cat ${PWD}/a.txt`
 do
@@ -27,14 +28,14 @@ mount | grep /dev/sd
 #是否继续操作 
 read -p "Do you want to continue? (n or Enter to continun" IS
 #输入n结束操作退出脚本
-if [ "$IS" == "n" ];
+if [ "$IS" == "n" -o "$IS" == "N" ];
 then
 	exit
 #输入回车 继续脚本
 else
 
 	TMP=n
-	while [ "$TMP" == "n" ]
+	while [ "$TMP" == "n" -o "$TMP" == "N" ]
 	do
 
         #启用所有中国的镜像站
