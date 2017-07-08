@@ -1,6 +1,5 @@
 #!/bin/bash
 ##fdisk
-set -o errexit
 #DEVICE_COUNT 存放分区编号
 DEVICE_COUNT=""
 ##分区函数

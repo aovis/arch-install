@@ -1,5 +1,4 @@
 #!/bin/bash
-set -o errexit
 #循环读取 fdisk.sh 生成的分区信息
 for line in `cat ${PWD}/a.txt`
 do
