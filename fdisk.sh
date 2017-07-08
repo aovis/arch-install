@@ -168,4 +168,7 @@ then
 fi
 #列出分区信息
 fdisk -l
-/root/mount.sh
+#分区完成  下载 新的脚本 继续安装
+wget https://raw.githubusercontent.com/aovis/arch-install/master/mount.sh
+chmod +x $PWD/mount.sh
+$PWD/mount.sh
