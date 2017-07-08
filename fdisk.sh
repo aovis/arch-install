@@ -153,8 +153,19 @@ then
 		#退出状态为1  打印提示
 		echo "you chose chancle"
 	fi
+	#swap交换分区操作
+	read -p "Do you want to set up Swap " IS
+	if [ "$IS" == "y" ];
+	then
+		read -p "Set swap size: " Size
+		count_device "$DISK"
+		echo "$DEVICE_COUNT"
+		fdisk_run "$DISK" "$Size" "$DEVICE_COUNT"
+		echo "swap:$DISK$DEVICE_COUNT" >> a.txt
+	fi
 
 
 fi
 #列出分区信息
 fdisk -l
+/root/mount.sh
