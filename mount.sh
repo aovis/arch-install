@@ -8,7 +8,7 @@ do
 	#如果是根分区 直接格式化 交挂载到/mnt目录下
 	if [ "$TMP1" == "/" ];
 	then 
-		mkfs -f -v -t ext4 ${TMP2} > /dev/null 2>&1
+		mkfs -F -v -t ext4 ${TMP2} > /dev/null 2>&1
 		mount -v -t ext4 ${TMP2} /mnt
 	#如果是swap交换分区 格式化交启用swap交换分区
 	elif [ "$TMP1" == "swap" ];
@@ -18,7 +18,7 @@ do
 	#其他分区 建立目录 格式化分区 挂载到相应目录下 
 	else
 		mkdir -pv /mnt${TMP1}
-		mkfs -f -v -t ext4 ${TMP2} > /dev/null 2>&1
+		mkfs -F -v -t ext4 ${TMP2} > /dev/null 2>&1
 		mount -v -t ext4 ${TMP2} /mnt${TMP1}
 	fi
 done
