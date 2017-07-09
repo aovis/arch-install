@@ -161,7 +161,7 @@ fi
 TMP="n"
 while [ "$TMP" == "n" && "$TMP" =="N" ];
 do
-	pacman -Syu yaourt && pacman -S --noconfirm archlinuxcn-keyring
+	pacman -Syy && pacman -S --noconfirm archlinuxcn-keyring yaourt
 	pacman -S --noconfirm networkmanager xorg-server xorg-xinit firefox wqy-zenhei
 	systemctl enable NetworkManager
 	read -p "Do you have bluetooth ? (y or Enter " TMP
@@ -210,7 +210,7 @@ do
 				  9) pacman -S --noconfirm cinnamon lightdm lightdm-gtk-greeter
 					  ;;
 				  10) 
-					  pacman -S --noconfirm i3 rofi rxvt-unicode lightdm lightdm-gtk-greeter
+					  pacman -S --noconfirm i3 rofi rxvt-unicode slim
 
 					  ;;
 				  *) echo Error ! Input the number again
@@ -237,7 +237,11 @@ elif (($DESKTOP==2))
 then 
 	gpasswd -a $USER sddm
 	systemctl enable sddm
-else 
+elif (($DESKTOP==10))
+then
+	gpasswd -a $USER slim
+	systemctl enable slim
+else	
 	gpasswd -a $USER lightdm
 	systemctl enable lightdm
 fi
