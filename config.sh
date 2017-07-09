@@ -95,94 +95,75 @@ do
 		then
 		   	pacman -S --noconfirm xf86-video-intel -y
 		elif (($VIDEO==2))
-
 		then TMP=4
-
 			while (($TMP!=1&&$TMP!=2&&$TMP!=3));
 			do
-
 				echo "Version of nvidia-driver to install:
 				[1]  GeForce-8 and newer
 				[2]  GeForce-6/7
 				[3]  Older  "
-
 				read TMP
-
 				if (($TMP==1))
-
 				then
 				   	pacman -S --noconfirm nvidia -y
-
 				elif (($TMP==2))
-
 				then
 				   	pacman -S --noconfirm nvidia-304xx -y
-
 				elif (($TMP==3))
-
 				then
 				   	pacman -S --noconfirm nvidia-340xx -y
-
 				else 
 					echo error ! input the number again
-
 				fi
-
 			done
-
 		elif (($VIDEO == 3))
-
 		then
 		   	pacman -S --noconfirm bumblebee -y
-
 			systemctl enable bumblebeed
-
 			TMP=4
-
 			while (($TMP!=1&&$TMP!=2&&$TMP!=3));
 			do
-
 				echo "Version of nvidia-driver to install:
 				[1]  GeForce-8 and newer
 				[2]  GeForce-6/7
 				[3]  Older   "
-
 				read TMP
-
 				if (($TMP==1))
-
 				then
 				   	pacman -S --noconfirm nvidia -y
-
 				elif (($TMP==2))
-
 				then
 				   	pacman -S --noconfirm nvidia-304xx -y
-
 				elif (($TMP==3))
-
 				then 
 					pacman -S --noconfirm nvidia-340xx -y
-
 				else 
 					echo Error ! Input the currect number !
-
 				fi
-
 			done
-
 		elif (($VIDEO==4))
-
 		then 
 			pacman -S --noconfirm xf86-video-ati -y
-
 		else
-
 			echo Error ! Input the number again
-
 		fi
-
 	done
-
 	read -p "Successfully installed ? (n or Enter  " TMP
+done
+
+echo "[archlinuxcn]
+SigLevel = Optional TrustedOnly
+Server = http://mirrors.163.com/archlinux-cn/\$arch" >> /etc/pacman.conf
+TMP="n"
+while [ "$TMP" == "n" && "$TMP" =="N" ];
+do
+	pacman -Syu yaourt && pacman -S --noconfirm archlinuxcn-keyring
+	pacman -S --noconfirm networkmanager xorg-server xorg-xinit firefox wqy-zenhei
+	systemctl enable NetworkManager
+	read -p "Do you have bluetooth ? (y or Enter " TMP
+	if [ "$TMP" == "y" -o "$TMP" == "Y" ];
+	then
+		pacman -S --noconfirm bluez blueman && systemctl enable bluetooth
+	fi
+	read -p "Successfully installed ? (n or Enter" TMP
 done

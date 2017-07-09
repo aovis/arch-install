@@ -41,9 +41,8 @@ else
 		sed -i '/China/!{n;/Server/s/^/#/};t;n' /etc/pacman.d/mirrorlist
 		#更新缓存
 		pacman -Syy
-		#安装基本系统  base ， base-devel 是默认gcc 生产环境 grub 引导 vim 编辑器 iw wpa_supplicant dialog 网络连接依赖
-		#这里只安装无线网络   有线网络 请查看相关wiki
-		pacstrap -i /mnt base base-devel grub vim iw wpa_supplicant dialog --force
+		#安装基本系统  base ， base-devel 是默认gcc 生产环境 grub 引导 vim 编辑器
+		pacstrap -i /mnt base base-devel grub vim dialog --force
 		#写入磁盘挂载信息到 /mnt/etc/fstab 里
 		genfstab -U -p /mnt > /mnt/etc/fstab
 		#是否成功安装基本系统 n 没有成功  重复安装 enter 成功安装 退出脚本
