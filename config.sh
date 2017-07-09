@@ -151,9 +151,13 @@ do
 	read -p "Successfully installed ? (n or Enter  " TMP
 done
 
+ISCN=`cat /etc/pacman.conf | grep "\[archlinuxcn\]"`
+if [ "$ISCN" == "" ];
+then
 echo "[archlinuxcn]
 SigLevel = Optional TrustedOnly
 Server = http://mirrors.163.com/archlinux-cn/\$arch" >> /etc/pacman.conf
+fi
 TMP="n"
 while [ "$TMP" == "n" && "$TMP" =="N" ];
 do
@@ -167,3 +171,74 @@ do
 	fi
 	read -p "Successfully installed ? (n or Enter" TMP
 done
+
+TMP=n
+while [ "$TMP" == n ];
+do
+	echo -e "\033[31m Which desktop you want to install :  \033[0m"
+	DESKTOP=0
+	while (($DESKTOP!=1&&$DESKTOP!=2&&$DESKTOP!=3&&$DESKTOP!=4&&$DESKTOP!=5&&$DESKTOP!=6&&$DESKTOP!=7&&$DESKTOP!=8&&$DESKTOP!=9&&$DESKTOP!=10));
+	do
+		echo "[1]  Gnome
+			  [2]  Kde
+			  [3]  Lxde
+			  [4]  Lxqt
+			  [5]  Mate
+			  [6]  Xfce
+			  [7]  Deepin
+			  [8]  Budgie
+			  [9]  Cinnamon
+			  [10]  i3wm"
+			  read DESKTOP
+			  case $DESKTOP in
+				  1) pacman -S --noconfirm gnome
+					  ;;
+				  2) pacman -S --noconfirm plasma kdebase kdeutils kdegraphics kde-l10n-zh_cn sddm
+					  ;;
+				  3) pacman -S --noconfirm lxde lightdm lightdm-gtk-greeter
+					  ;;
+				  4) pacman -S --noconfirm lxqt lightdm lightdm-gtk-greeter
+					  ;;
+				  5) pacman -S --noconfirm mate mate-extra lightdm lightdm-gtk-greeter
+					  ;;
+				  6) pacman -S --noconfirm xfce4 xfce4-goodies lightdm lightdm-gtk-greeter
+					  ;;
+				  7) pacman -S --noconfirm deepin deepin-extra lightdm lightdm-gtk-greeter&&sed -i '108s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-deepin-greeter/' /etc/lightdm/lightdm.conf
+					  ;;
+				  8) pacman -S--noconfirm  budgie-desktop lightdm lightdm-gtk-greeter
+					  ;;
+				  9) pacman -S --noconfirm cinnamon lightdm lightdm-gtk-greeter
+					  ;;
+				  10) 
+					  pacman -S --noconfirm i3 rofi rxvt-unicode lightdm lightdm-gtk-greeter
+
+					  ;;
+				  *) echo Error ! Input the number again
+					  ;;
+			  esac
+			  done
+			  read -p "Successfully installed ? (n or Enter  " TMP
+done
+
+
+read -p "Input the user name you want to use :  " USER
+useradd -m -g users -G wheel -s /bin/bash $USER
+passwd $USER
+usermod -aG root,bin,daemon,tty,disk,games,network,video,audio $USER
+if (($VIDEO==4))
+then  
+	gpasswd -a $USER bumblebee
+fi
+if (($DESKTOP==1))
+then
+   	gpasswd -a $USER gdm
+	systemctl enable gdm
+elif (($DESKTOP==2))
+then 
+	gpasswd -a $USER sddm
+	systemctl enable sddm
+else 
+	gpasswd -a $USER lightdm
+	systemctl enable lightdm
+fi
+
