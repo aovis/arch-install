@@ -19,7 +19,7 @@ echo $HOSTNAME > /etc/hostname
 PASSWD=""
 REPASSWD=""
 TMP="n"
-while [ "$TMP" == "n" ];
+while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 do
 	PASSWD=$(dialog --title "Password Box" --passwordbox "Change your root passwd and choose OK to continue." 10 30 3>&1 1>&2 2>&3)
 	exitstatus=$?
@@ -59,14 +59,14 @@ read -p "Are you efi ? (y or enter " TMP
 if [ "$TMP" == "Y" -o "$TMP" == "y" ];
 then
 	TMP=n
-	while [ "$TMP" == "n" -o "$TMP" == "N" ];
+	while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 	do
 		pacman -S --noconfirm grub efibootmgr -y && grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch && grub-mkconfig -o /boot/grub/grub.cfg
 		read -p "Successfully installed ? (n or Enter " TMP
 	done
 else 
 	TMP=n
-	while [ "$TMP" == "n" -o "$TMP" == "N" ];
+	while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 	do
 		pacman -S --noconfirm grub && fdisk -l
 		read -p "Input the disk you want to install the grub " GRUB
@@ -80,10 +80,10 @@ fi
 
 
 TMP=n
-while [ "$TMP" == n ];
+while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 do
 	VIDEO=5
-	while (($VIDEO!=1&&$VIDEO!=2&&$VIDEO!=3&&$VIDEO!=4));
+	while [ "$VIDEO" != "1" ] && [ "$VIDEO" != "2" ] && [ "$VIDEO" != "3" ] && [ "$VIDEO" != "4" ];
 	do
 		echo "What is your video card ?
 		[1]  intel
@@ -96,7 +96,7 @@ do
 		   	pacman -S --noconfirm xf86-video-intel -y
 		elif [ "$VIDEO" == "2" ];
 		then TMP=4
-			while (($TMP!=1&&$TMP!=2&&$TMP!=3));
+			while [ "$TMP" != "1" ] && [ "$TMP" != "2" ] && [ "$TMP" != "3" ];
 			do
 				echo "Version of nvidia-driver to install:
 				[1]  GeForce-8 and newer
@@ -121,7 +121,7 @@ do
 		   	pacman -S --noconfirm bumblebee -y
 			systemctl enable bumblebeed
 			TMP=4
-			while (($TMP!=1&&$TMP!=2&&$TMP!=3));
+			while [ "$TMP" != "1" ] && [ "$TMP" != "2" ] && [ "$TMP" != "3" ];
 			do
 				echo "Version of nvidia-driver to install:
 				[1]  GeForce-8 and newer
@@ -159,7 +159,7 @@ SigLevel = Optional TrustedOnly
 Server = http://mirrors.163.com/archlinux-cn/\$arch" >> /etc/pacman.conf
 fi
 TMP="n"
-while [ "$TMP" == "n" ];
+while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 do
 	pacman -Syy && pacman -S --noconfirm archlinuxcn-keyring yaourt
 	pacman -S --noconfirm networkmanager xorg-server xorg-xinit firefox wqy-zenhei
@@ -173,11 +173,11 @@ do
 done
 
 TMP=n
-while [ "$TMP" == n ];
+while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 do
 	echo -e "\033[31m Which desktop you want to install :  \033[0m"
 	DESKTOP=0
-	while (($DESKTOP!=1&&$DESKTOP!=2&&$DESKTOP!=3&&$DESKTOP!=4&&$DESKTOP!=5&&$DESKTOP!=6&&$DESKTOP!=7&&$DESKTOP!=8&&$DESKTOP!=9&&$DESKTOP!=10));
+	while [ "$DESKTOP" != "1" ] && [ "$DESKTOP" != "2" ] && [ "$DESKTOP" != "3" ] && [ "$DESKTOP" != "4" ] && [ "$DESKTOP" != "5" ] && [ "$DESKTOP" != "6" ] && [ "$DESKTOP" != "7" ] && [ "$DESKTOP" != "8" ] && [ "$DESKTOP" != "9" ] && [ "$DESKTOP" != "10" ];
 	do
 		echo "[1]  Gnome
 			  [2]  Kde
@@ -224,6 +224,13 @@ done
 read -p "Input the user name you want to use :  " USER
 useradd -m -g users -G wheel -s /bin/bash $USER
 passwd $USER
+chmod +w /etc/sudoers
+ISSU=`cat /etc/sudoers | grep "$USER ALL=(ALL) ALL"`
+if [ "ISSU" == "" ];
+then
+	sed -i "/root ALL=(ALL) ALL/a\ $USER ALL=(ALL) ALL" /etc/sudoers
+	chmod -w /etc/sudoers
+fi
 usermod -aG root,bin,daemon,tty,disk,games,network,video,audio $USER
 if [ "$VIDEO" == "4" ];
 then  
