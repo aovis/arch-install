@@ -91,10 +91,10 @@ do
 		[3]  intel/nvidia
 		[4]  ATI/AMD"
 		read VIDEO
-		if (($VIDEO==1))
+		if [ "$VIDEO" == "1" ];
 		then
 		   	pacman -S --noconfirm xf86-video-intel -y
-		elif (($VIDEO==2))
+		elif [ "$VIDEO" == "2" ];
 		then TMP=4
 			while (($TMP!=1&&$TMP!=2&&$TMP!=3));
 			do
@@ -103,20 +103,20 @@ do
 				[2]  GeForce-6/7
 				[3]  Older  "
 				read TMP
-				if (($TMP==1))
+				if [ "$TMP" == "1" ];
 				then
 				   	pacman -S --noconfirm nvidia -y
-				elif (($TMP==2))
+				elif [ "$TMP" == "2" ];
 				then
 				   	pacman -S --noconfirm nvidia-304xx -y
-				elif (($TMP==3))
+				elif [ "$TMP" == "3" ];
 				then
 				   	pacman -S --noconfirm nvidia-340xx -y
 				else 
 					echo error ! input the number again
 				fi
 			done
-		elif (($VIDEO == 3))
+		elif [ "$VIDEO" == "3" ];
 		then
 		   	pacman -S --noconfirm bumblebee -y
 			systemctl enable bumblebeed
@@ -128,20 +128,20 @@ do
 				[2]  GeForce-6/7
 				[3]  Older   "
 				read TMP
-				if (($TMP==1))
+				if [ "$TMP" == "1" ];
 				then
 				   	pacman -S --noconfirm nvidia -y
-				elif (($TMP==2))
+				elif [ "$TMP" == "2" ];
 				then
 				   	pacman -S --noconfirm nvidia-304xx -y
-				elif (($TMP==3))
+				elif [ "$TMP" == "3" ];
 				then 
 					pacman -S --noconfirm nvidia-340xx -y
 				else 
 					echo Error ! Input the currect number !
 				fi
 			done
-		elif (($VIDEO==4))
+		elif [ "$VIDEO" == "4" ];
 		then 
 			pacman -S --noconfirm xf86-video-ati -y
 		else
@@ -159,7 +159,7 @@ SigLevel = Optional TrustedOnly
 Server = http://mirrors.163.com/archlinux-cn/\$arch" >> /etc/pacman.conf
 fi
 TMP="n"
-while [ "$TMP" == "n" && "$TMP" =="N" ];
+while [ "$TMP" == "n" ];
 do
 	pacman -Syy && pacman -S --noconfirm archlinuxcn-keyring yaourt
 	pacman -S --noconfirm networkmanager xorg-server xorg-xinit firefox wqy-zenhei
@@ -225,19 +225,19 @@ read -p "Input the user name you want to use :  " USER
 useradd -m -g users -G wheel -s /bin/bash $USER
 passwd $USER
 usermod -aG root,bin,daemon,tty,disk,games,network,video,audio $USER
-if (($VIDEO==4))
+if [ "$VIDEO" == "4" ];
 then  
 	gpasswd -a $USER bumblebee
 fi
-if (($DESKTOP==1))
+if [ "$DESKTOP" == "1" ];
 then
    	gpasswd -a $USER gdm
 	systemctl enable gdm
-elif (($DESKTOP==2))
+elif [ "$DESKTOP" == "2" ];
 then 
 	gpasswd -a $USER sddm
 	systemctl enable sddm
-elif (($DESKTOP==10))
+elif [ "$DESKTOP" == "10" ];
 then
 	gpasswd -a $USER slim
 	systemctl enable slim
