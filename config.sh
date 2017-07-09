@@ -75,3 +75,114 @@ else
 		read -p "Successfully installed ? (n or Enter " TMP
 	done
 fi
+
+
+
+
+TMP=n
+while [ "$TMP" == n ];
+do
+	VIDEO=5
+	while (($VIDEO!=1&&$VIDEO!=2&&VIDEO!=3&&VIDEO!=4));
+	do
+		echo "What is your video card ?
+		[1]  intel
+		[2]  nvidia
+		[3]  intel/nvidia
+		[4]  ATI/AMD"
+		read VIDEO
+		if (($VIDEO==1))
+		then
+		   	pacman -S --noconfirm xf86-video-intel -y
+		elif (($VIDEO==2))
+
+		then TMP=4
+
+			while (($TMP!=1&&$TMP!=2&&$TMP!=3));
+			do
+
+				echo "Version of nvidia-driver to install:
+				[1]  GeForce-8 and newer
+				[2]  GeForce-6/7
+				[3]  Older  "
+
+				read TMP
+
+				if (($TMP==1))
+
+				then
+				   	pacman -S --noconfirm nvidia -y
+
+				elif (($TMP==2))
+
+				then
+				   	pacman -S --noconfirm nvidia-304xx -y
+
+				elif (($TMP==3))
+
+				then
+				   	pacman -S --noconfirm nvidia-340xx -y
+
+				else 
+					echo error ! input the number again
+
+				fi
+
+			done
+
+		elif (($VIDEO == 3))
+
+		then
+		   	pacman -S --noconfirm bumblebee -y
+
+			systemctl enable bumblebeed
+
+			TMP=4
+
+			while (($TMP!=1&&$TMP!=2&&$TMP!=3));
+			do
+
+				echo "Version of nvidia-driver to install:
+				[1]  GeForce-8 and newer
+				[2]  GeForce-6/7
+				[3]  Older   "
+
+				read TMP
+
+				if (($TMP==1))
+
+				then
+				   	pacman -S --noconfirm nvidia -y
+
+				elif (($TMP==2))
+
+				then
+				   	pacman -S --noconfirm nvidia-304xx -y
+
+				elif (($TMP==3))
+
+				then 
+					pacman -S --noconfirm nvidia-340xx -y
+
+				else 
+					echo Error ! Input the currect number !
+
+				fi
+
+			done
+
+		elif (($VIDEO==4))
+
+		then 
+			pacman -S --noconfirm xf86-video-ati -y
+
+		else
+
+			echo Error ! Input the number again
+
+		fi
+
+	done
+
+	read -p "Successfully installed ? (n or Enter  " TMP
+done
