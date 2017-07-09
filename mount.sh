@@ -50,3 +50,7 @@ else
 		read -p "Successfully installed ? (n or Enter  " TMP
 	done
 fi
+wget https://raw.githubusercontent.com/aovis/arch-install/master/config.sh
+mv $PWD/config.sh /mnt/root/
+chmod +x /mnt/root/config.sh
+arch-chroot /mnt /root/config.sh
