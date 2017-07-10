@@ -82,14 +82,15 @@ fi
 TMP=n
 while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 do
-	VIDEO=5
-	while [ "$VIDEO" != "1" ] && [ "$VIDEO" != "2" ] && [ "$VIDEO" != "3" ] && [ "$VIDEO" != "4" ];
+	VIDEO=6
+	while [ "$VIDEO" != "1" ] && [ "$VIDEO" != "2" ] && [ "$VIDEO" != "3" ] && [ "$VIDEO" != "4" ] && [ "$VIDEO" != "5" ];
 	do
 		echo "What is your video card ?
 		[1]  intel
 		[2]  nvidia
 		[3]  intel/nvidia
-		[4]  ATI/AMD"
+		[4]  ATI/AMD
+		[5]  vbox"
 		read VIDEO
 		if [ "$VIDEO" == "1" ];
 		then
@@ -144,6 +145,11 @@ do
 		elif [ "$VIDEO" == "4" ];
 		then 
 			pacman -S --noconfirm xf86-video-ati -y
+		elif [ "$VIDEO" == "5"]
+		then
+			pacman -S linux-headers
+			pacman -S virtualbox-guest-utils
+			modprobe -a vboxguest vboxsf vboxvideo
 		else
 			echo Error ! Input the number again
 		fi
