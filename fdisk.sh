@@ -159,13 +159,18 @@ then
 	then
 		read -p "Set swap size: " Size
 		count_device "$DISK"
-		echo "$DEVICE_COUNT"
-		fdisk_run "$DISK" "$Size" "$DEVICE_COUNT"
+		if [ $DEVICE_COUNT -le 4 ];
+		then
+			Extdisk "$DISK" > /dev/null 2>&1
+			count_device "$DISK"
+			echo "$DEVICE_COUNT"
+			fdisk_run "$DISK" "Size" "$DEVICE_COUNT"
+		else
+			echo "$DEVICE_COUNT"
+		    fdisk_run "$DISK" "$Size" "$DEVICE_COUNT"
+		fi
 		echo "swap:$DISK$DEVICE_COUNT" >> a.txt
-
 	fi
-
-
 fi
 #列出分区信息
 fdisk -l
