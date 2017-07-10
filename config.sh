@@ -240,6 +240,7 @@ fi
 usermod -aG root,bin,daemon,tty,disk,games,network,video,audio $USER
 cp /etc/X11/xinit/xinitrc /root/.xinitrc
 cp /etc/X11/xinit/xinitrc /home/$USER/.xinitrc
+chown $USER:users /home/$USER/.xinitrc
 if [ "$VIDEO" == "4" ];
 then  
 	gpasswd -a $USER bumblebee
