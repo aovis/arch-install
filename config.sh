@@ -69,7 +69,7 @@ else
 	while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 	do
 		pacman -S --noconfirm grub && fdisk -l
-		read -p "Input the disk you want to install the grub " GRUB
+		read -p "Input the disk you want to install the grub (/dev/sdx : " GRUB
 		grub-install --target=i386-pc $GRUB
 		grub-mkconfig -o /boot/grub/grub.cfg
 		read -p "Successfully installed ? (n or Enter " TMP
