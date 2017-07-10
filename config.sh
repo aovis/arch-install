@@ -145,7 +145,7 @@ do
 		elif [ "$VIDEO" == "4" ];
 		then 
 			pacman -S --noconfirm xf86-video-ati -y
-		elif [ "$VIDEO" == "5"]
+		elif [ "$VIDEO" == "5" ]
 		then
 			pacman -S linux-headers
 			pacman -S virtualbox-guest-utils
