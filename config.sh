@@ -230,12 +230,13 @@ done
 read -p "Input the user name you want to use :  " USER
 useradd -m -g users -G wheel -s /bin/bash $USER
 passwd $USER
-chmod +w /etc/sudoers
+chmod +rw /etc/sudoers
 ISSU=`cat /etc/sudoers | grep "$USER ALL=(ALL) ALL"`
 if [ "ISSU" == "" ];
 then
 	sed -i "/root ALL=(ALL) ALL/a\ $USER ALL=(ALL) ALL" /etc/sudoers
 	chmod -w /etc/sudoers
+	chmod o-r /etc/sudoers
 fi
 usermod -aG root,bin,daemon,tty,disk,games,network,video,audio $USER
 cp /etc/X11/xinit/xinitrc /root/.xinitrc
@@ -255,6 +256,8 @@ then
 	systemctl enable sddm
 elif [ "$DESKTOP" == "10" ];
 then
+	echo "exec i3" >> /root/.xinitrc
+	echo "exec i3" >> /home/$USER/.xinitrc
 	gpasswd -a $USER slim
 	systemctl enable slim
 else	
