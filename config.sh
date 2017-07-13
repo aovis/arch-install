@@ -216,7 +216,7 @@ do
 				  9) pacman -S --noconfirm cinnamon lightdm lightdm-gtk-greeter
 					  ;;
 				  10) 
-					  pacman -S --noconfirm i3 rofi rxvt-unicode slim
+					  pacman -S --noconfirm i3 rofi rxvt-unicode lightdm lightdm-gtk-greeter
 
 					  ;;
 				  *) echo Error ! Input the number again
@@ -255,12 +255,6 @@ elif [ "$DESKTOP" == "2" ];
 then 
 	gpasswd -a $USER sddm
 	systemctl enable sddm
-elif [ "$DESKTOP" == "10" ];
-then
-	echo "exec i3" >> /root/.xinitrc
-	echo "exec i3" >> /home/$USER/.xinitrc
-	gpasswd -a $USER slim
-	systemctl enable slim
 else	
 	gpasswd -a $USER lightdm
 	systemctl enable lightdm
