@@ -1,4 +1,5 @@
 #!/bin/bash
+#bahiaps@sina.com
 read -p "ENTER To Continue"
 #设置时区时间
 ln -svf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
