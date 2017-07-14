@@ -248,7 +248,7 @@ chmod +rw /etc/sudoers
 ISSU=`cat /etc/sudoers | grep "$USER ALL=(ALL) ALL"`
 if [ "ISSU" == "" ];
 then
-	sed -i "/root ALL=(ALL) ALL/a\ $USER ALL=(ALL) ALL" /etc/sudoers
+	`sed -i "/root ALL=(ALL) ALL/a\ $USER ALL=(ALL) ALL" /etc/sudoers`
 	chmod -w /etc/sudoers
 	chmod o-r /etc/sudoers
 fi
