@@ -1,21 +1,29 @@
 #!/bin/bash
 read -p "ENTER To Continue"
+#设置时区时间
 ln -svf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 hwclock --systohc --utc
+#启用字符集
 sed -i '/zh_CN.UTF-8/{s/#//}' /etc/locale.gen
 sed -i '/en_US.UTF-8/{s/#//}' /etc/locale.gen
 sed -i '/zh_TW.UTF-8/{s/#//}' /etc/locale.gen
 sed -i '/zh_CN.GB18030/{s/#//}' /etc/locale.gen
 sed -i '/zh_CN.GBK/{s/#//}' /etc/locale.gen
 locale-gen
+#默认zh_CN.utf-8
 echo LANG=zh_CN.UTF-8 > /etc/locale.conf
+#主机名
 HOSTNAME=$(dialog --title "Input Box" --inputbox "Please input your hostname" 10 60 localhost 3>&1 1>&2 2>&3)
+#dialog 退出 状态  
+#0为确定
+#1为取消
 exitstatus=$?
 if [ $exitstatus = 1 ];
 then
 	HOSTNAME="localhost"
 fi
 echo $HOSTNAME > /etc/hostname
+#root 密码
 PASSWD=""
 REPASSWD=""
 TMP="n"
@@ -45,7 +53,9 @@ passwd << EOF
 $PASSWD
 $REPASSWD
 EOF
+#查看是否为/usr 建立单独挂载点
 ISUSR=`mount | grep /dev | grep usr`
+#如果有usr挂载点  修改/etc/mkinitcpio.conf 文件 在HOOKS中加入 shutdown usr
 if [ "$ISUSR" != "" ];
 then
 	 ISMK=`cat /etc/mkinitcpio.conf | grep "HOOKS=\"base shutdown usr"`
@@ -55,6 +65,7 @@ then
 	 fi
 	 mkinitcpio -p linux
 fi
+#安装grub
 read -p "Are you efi ? (y or enter " TMP
 if [ "$TMP" == "Y" -o "$TMP" == "y" ];
 then
@@ -78,7 +89,7 @@ fi
 
 
 
-
+#安装显卡驱动
 TMP=n
 while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 do
@@ -156,7 +167,7 @@ do
 	done
 	read -p "Successfully installed ? (n or Enter  " TMP
 done
-
+#加archlinuxcn 软件仓库
 ISCN=`cat /etc/pacman.conf | grep "\[archlinuxcn\]"`
 if [ "$ISCN" == "" ];
 then
@@ -165,6 +176,7 @@ SigLevel = Optional TrustedOnly
 Server = http://mirrors.163.com/archlinux-cn/\$arch" >> /etc/pacman.conf
 fi
 TMP="n"
+#安装Xwindows 和 一些必要的软件
 while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 do
 	pacman -Syy && pacman -S --noconfirm archlinuxcn-keyring yaourt
@@ -177,7 +189,7 @@ do
 	fi
 	read -p "Successfully installed ? (n or Enter" TMP
 done
-
+#安装桌面环境
 TMP=n
 while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 do
@@ -216,7 +228,7 @@ do
 				  9) pacman -S --noconfirm cinnamon lightdm lightdm-gtk-greeter
 					  ;;
 				  10) 
-					  pacman -S --noconfirm i3 rofi rxvt-unicode slim
+					  pacman -S --noconfirm i3 rofi rxvt-unicode lightdm lightdm-gtk-greeter
 
 					  ;;
 				  *) echo Error ! Input the number again
@@ -226,10 +238,11 @@ do
 			  read -p "Successfully installed ? (n or Enter  " TMP
 done
 
-
+#建立用户
 read -p "Input the user name you want to use :  " USER
 useradd -m -g users -G wheel -s /bin/bash $USER
 passwd $USER
+#为用户启用sudo
 chmod +rw /etc/sudoers
 ISSU=`cat /etc/sudoers | grep "$USER ALL=(ALL) ALL"`
 if [ "ISSU" == "" ];
@@ -239,10 +252,6 @@ then
 	chmod o-r /etc/sudoers
 fi
 usermod -aG root,bin,daemon,tty,disk,games,network,video,audio $USER
-cp -v /etc/X11/xinit/xinitrc /root/.xinitrc
-cp -v /etc/X11/xinit/xinitrc /home/$USER/.xinitrc
-sleep 3
-chown $USER:users /home/$USER/.xinitrc
 if [ "$VIDEO" == "4" ];
 then  
 	gpasswd -a $USER bumblebee
@@ -255,12 +264,6 @@ elif [ "$DESKTOP" == "2" ];
 then 
 	gpasswd -a $USER sddm
 	systemctl enable sddm
-elif [ "$DESKTOP" == "10" ];
-then
-	echo "exec i3" >> /root/.xinitrc
-	echo "exec i3" >> /home/$USER/.xinitrc
-	gpasswd -a $USER slim
-	systemctl enable slim
 else	
 	gpasswd -a $USER lightdm
 	systemctl enable lightdm
