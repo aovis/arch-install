@@ -248,14 +248,14 @@ read -p "Input the user name you want to use :  " USER
 useradd -m -g users -G wheel -s /bin/bash $USER
 passwd $USER
 #为用户启用sudo
-chmod +rw /etc/sudoers
-ISSU=`cat /etc/sudoers | grep "$USER ALL=(ALL) ALL"`
-if [ "ISSU" == "" ];
-then
-	`sed -i "/root ALL=(ALL) ALL/a\ $USER ALL=(ALL) ALL" /etc/sudoers`
-	chmod -w /etc/sudoers
-	chmod o-r /etc/sudoers
-fi
+#chmod +rw /etc/sudoers
+#ISSU=`cat /etc/sudoers | grep "$USER ALL=(ALL) ALL"`
+#if [ "ISSU" == "" ];
+#then
+#	`sed -i "/root ALL=(ALL) ALL/a\ $USER ALL=(ALL) ALL" /etc/sudoers`
+#	chmod -w /etc/sudoers
+#	chmod o-r /etc/sudoers
+#fi
 usermod -aG root,bin,daemon,tty,disk,games,network,video,audio $USER
 if [ "$VIDEO" == "4" ];
 then  
