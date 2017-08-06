@@ -185,6 +185,7 @@ TMP="n"
 while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 do
 	pacman -Syy && pacman -S --noconfirm archlinuxcn-keyring yaourt
+    echo "111111111111111111111111111111"
 	pacman -S --noconfirm networkmanager xorg-server xorg-xinit firefox wqy-zenhei
 	systemctl enable NetworkManager
 	read -p "Do you have bluetooth ? (y or Enter " TMP
