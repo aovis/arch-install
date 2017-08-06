@@ -82,6 +82,8 @@ EOF
 > a.txt
 
 #询问是否分区
+
+echo -e "\033[31m input y continue! \033[0m"
 read -p "Do you want to adjust the partition?(Input y to use fdisk or Enter to continue: " TMP
 #如果输入y 进行分区
 if [ "$TMP" == "y" -o "$TMP" == "Y" ]
@@ -106,11 +108,15 @@ then
 	if [ $exitstatus = 0 ];
 	then
 		#询问 要对哪个磁盘进行分区
+
+        echo -e "\033[31m input disk name, like /dev/sda ! \033[0m"
 		read -p "Whick disk do you want to partition?(/dev/sdx: " DISK
 		#循环 每对应一个挂载 建立一个分区
 		for s in $POINT 
 		do
 			#设置分区大小
+
+            echo -e "\033[31m input size , like xxG and xxM \033[0m"
 			read -p "set ${s} Size: " Size
 			#对/挂载点进行操作
 			if [ "$s" == "\"/\"" ];
@@ -159,7 +165,7 @@ then
 	then
 		read -p "Set swap size: " Size
 		count_device "$DISK"
-		if [ $DEVICE_COUNT -le 4 ];
+		if [ $DEVICE_COUNT -eq 4 ];
 		then
 			Extdisk "$DISK" > /dev/null 2>&1
 			count_device "$DISK"

@@ -67,6 +67,7 @@ then
 	 mkinitcpio -p linux
 fi
 #安装grub
+echo -e "\033[31m input n install grub , input y install efibootmgr grub! \033[0m"
 read -p "Are you efi ? (y or enter " TMP
 if [ "$TMP" == "Y" -o "$TMP" == "y" ];
 then
@@ -74,6 +75,7 @@ then
 	while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 	do
 		pacman -S --noconfirm grub efibootmgr -y && grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch && grub-mkconfig -o /boot/grub/grub.cfg
+        echo -e "\033[31m input n try again , input y continue! \033[0m"
 		read -p "Successfully installed ? (n or Enter " TMP
 	done
 else 
@@ -81,9 +83,11 @@ else
 	while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 	do
 		pacman -S --noconfirm grub && fdisk -l
+        echo -e "\033[31m input disk name like /dev/sda \033[0m"
 		read -p "Input the disk you want to install the grub (/dev/sdx : " GRUB
 		grub-install --target=i386-pc $GRUB
 		grub-mkconfig -o /boot/grub/grub.cfg
+        echo -e "\033[31m input n try again , input y continue! \033[0m"
 		read -p "Successfully installed ? (n or Enter " TMP
 	done
 fi
@@ -170,6 +174,7 @@ do
 			echo Error ! Input the number again
 		fi
 	done
+    echo -e "\033[31m input n try again , input y continue! \033[0m"
 	read -p "Successfully installed ? (n or Enter  " TMP
 done
 #加archlinuxcn 软件仓库
@@ -193,6 +198,7 @@ do
 	then
 		pacman -S --noconfirm bluez blueman && systemctl enable bluetooth
 	fi
+    echo -e "\033[31m input n try again , input y continue! \033[0m"
 	read -p "Successfully installed ? (n or Enter" TMP
 done
 #安装桌面环境
@@ -241,6 +247,7 @@ do
 					  ;;
 			  esac
 			  done
+              echo -e "\033[31m input n try again , input y continue! \033[0m"
 			  read -p "Successfully installed ? (n or Enter  " TMP
 done
 
