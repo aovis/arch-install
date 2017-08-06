@@ -193,6 +193,8 @@ do
     echo "111111111111111111111111111111"
 	pacman -S --noconfirm networkmanager xorg-server xorg-xinit firefox wqy-zenhei
 	systemctl enable NetworkManager
+
+    echo -e "\033[31m input n continue , input install bluetooth (lanya) \033[0m"
 	read -p "Do you have bluetooth ? (y or Enter " TMP
 	if [ "$TMP" == "y" -o "$TMP" == "Y" ];
 	then
@@ -252,6 +254,8 @@ do
 done
 
 #建立用户
+
+echo -e "\033[31m add a new user input username \033[0m"
 read -p "Input the user name you want to use :  " USER
 useradd -m -g users -G wheel -s /bin/bash $USER
 passwd $USER

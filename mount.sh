@@ -46,6 +46,8 @@ else
 		#写入磁盘挂载信息到 /mnt/etc/fstab 里
 		genfstab -U -p /mnt > /mnt/etc/fstab
 		#是否成功安装基本系统 n 没有成功  重复安装 enter 成功安装 退出脚本
+
+        echo -e "\033[31m input n try again , input y continue! \033[0m"
 		read -p "Successfully installed ? (n or Enter  " TMP
 	done
 fi
