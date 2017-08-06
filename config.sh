@@ -94,7 +94,7 @@ fi
 TMP=n
 while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 do
-	VIDEO=6
+	VIDEO=7
 	while [ "$VIDEO" != "1" ] && [ "$VIDEO" != "2" ] && [ "$VIDEO" != "3" ] && [ "$VIDEO" != "4" ] && [ "$VIDEO" != "5" ] && [ "$VIDEO" != "6" ];
 	do
 		echo "What is your video card ?
