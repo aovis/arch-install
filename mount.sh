@@ -18,7 +18,7 @@ do
         if [ "$FILESYSTEM" == "XFS" -o "$FILESYSTEM" == "xfs" ]
         then
             XFSM "${TMP2}"
-        elif            
+        else            
 		    mkfs -F -v -t ext4 ${TMP2} > /dev/null 2>&1
         fi
 		mount -v -t ${FILESYSTEM} ${TMP2} /mnt
@@ -33,7 +33,7 @@ do
         if [ "${FILESYSTEM}" == "XFS" -o "$FILESYSTEM" == "xfs" ]
         then
             XFSM "${TMP2}"
-        elif
+        else
 		    mkfs -F -v -t ext4 ${TMP2} > /dev/null 2>&1
         fi
 		mount -v -t ${FILESYSTEM} ${TMP2} /mnt${TMP1}
