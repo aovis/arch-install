@@ -9,7 +9,7 @@ function XFSM()
     fi
 }
 
-echo -e "\003[31m input filesystem ext4 or xfs (like xfs) \033[0m" 
+echo -e "\033[31m input filesystem ext4 or xfs (like xfs) \033[0m" 
 read -p "inptu filesystem : " FILESYSTEM
 if [ "${FILESYSTEM}" == "" ]
 then
