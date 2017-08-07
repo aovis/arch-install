@@ -3,7 +3,7 @@ function XFSM()
 {
     if [ "${2}" == "/boot" ]
     then
-        mkfs.xfs -f -i size=512 -l size=10m,lazy-count=1 -d agcount=16 ${1}
+        mkfs.xfs -f ${1}
     else
         mkfs.xfs -f -i size=512 -l size=128m,lazy-count=1 -d agcount=16 ${1}
     fi
