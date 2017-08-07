@@ -3,9 +3,9 @@ function XFSM()
 {
     if [ "${2}" == "/boot" ]
     then
-        mkfs.xfs -f ${1}
+        mkfs.xfs -f ${1} > /dev/null 2>&1
     else
-        mkfs.xfs -f -i size=512 -l size=128m,lazy-count=1 -d agcount=16 ${1}
+        mkfs.xfs -f -i size=512 -l size=128m,lazy-count=1 -d agcount=16 ${1} > /dev/null 2>&1
     fi
 }
 
@@ -28,7 +28,7 @@ do
         then
             XFSM "${TMP2}" "${TMP1}"
         else            
-		    mkfs -F -v -t ${FILESYSTEM} ${TMP2} 
+		    mkfs -F -v -t ${FILESYSTEM} ${TMP2} > /dev/null 2>&1
         fi
 		mount -v -t ${FILESYSTEM} ${TMP2} /mnt
         sleep 3
@@ -44,7 +44,7 @@ do
         then
             XFSM "${TMP2}" "${TMP1}"
         else
-		    mkfs -F -v -t ${FILESYSTEM} ${TMP2}
+		    mkfs -F -v -t ${FILESYSTEM} ${TMP2} > /dev/null 2>&1
         fi
 		mount -v -t ${FILESYSTEM} ${TMP2} /mnt${TMP1}
         sleep 3
