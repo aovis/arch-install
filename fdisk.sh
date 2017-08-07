@@ -170,7 +170,7 @@ then
 			Extdisk "$DISK" > /dev/null 2>&1
 			count_device "$DISK"
 			echo "$DEVICE_COUNT"
-			fdisk_run "$DISK" "Size" "$DEVICE_COUNT"
+			fdisk_run "$DISK" "$Size" "$DEVICE_COUNT"
 		else
 			echo "$DEVICE_COUNT"
 		    fdisk_run "$DISK" "$Size" "$DEVICE_COUNT"

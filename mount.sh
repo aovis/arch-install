@@ -1,4 +1,11 @@
 #!/bin/bash
+function XFSM()
+{
+   mkfs.xfs -f -i size=512 -l size=128m,lazy-count=1 -d agcount=16 ${1}
+}
+
+echo -e "\003[31m input filesystem ext4 or xfs (like xfs) \033[0m" 
+read -p "inptu filesystem : " FILESYSTEM
 #循环读取 fdisk.sh 生成的分区信息
 for line in `cat ${PWD}/a.txt`
 do
@@ -8,8 +15,13 @@ do
 	#如果是根分区 直接格式化 交挂载到/mnt目录下
 	if [ "$TMP1" == "/" ];
 	then 
-		mkfs -F -v -t ext4 ${TMP2} > /dev/null 2>&1
-		mount -v -t ext4 ${TMP2} /mnt
+        if [ "$FILESYSTEM" == "XFS" -o "$FILESYSTEM" == "xfs" ]
+        then
+            XFSM "${TMP2}"
+        elif            
+		    mkfs -F -v -t ext4 ${TMP2} > /dev/null 2>&1
+        fi
+		mount -v -t ${FILESYSTEM} ${TMP2} /mnt
 	#如果是swap交换分区 格式化交启用swap交换分区
 	elif [ "$TMP1" == "swap" ];
 	then
@@ -18,8 +30,13 @@ do
 	#其他分区 建立目录 格式化分区 挂载到相应目录下 
 	else
 		mkdir -pv /mnt${TMP1}
-		mkfs -F -v -t ext4 ${TMP2} > /dev/null 2>&1
-		mount -v -t ext4 ${TMP2} /mnt${TMP1}
+        if [ "${FILESYSTEM}" == "XFS" -o "$FILESYSTEM" == "xfs" ]
+        then
+            XFSM "${TMP2}"
+        elif
+		    mkfs -F -v -t ext4 ${TMP2} > /dev/null 2>&1
+        fi
+		mount -v -t ${FILESYSTEM} ${TMP2} /mnt${TMP1}
 	fi
 done
 #显示挂载信息
