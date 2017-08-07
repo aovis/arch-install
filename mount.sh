@@ -1,7 +1,12 @@
 #!/bin/bash
 function XFSM()
 {
-   mkfs.xfs -f -i size=512 -l size=128m,lazy-count=1 -d agcount=16 ${1}
+    if [ "${2}" == "/boot" ]
+    then
+        mkfs.xfs -f -i size=512 -l size=10m,lazy-count=1 -d agcount=16 ${1}
+    else
+        mkfs.xfs -f -i size=512 -l size=128m,lazy-count=1 -d agcount=16 ${1}
+    fi
 }
 
 echo -e "\003[31m input filesystem ext4 or xfs (like xfs) \033[0m" 
@@ -21,7 +26,7 @@ do
 	then 
         if [ "$FILESYSTEM" == "XFS" -o "$FILESYSTEM" == "xfs" ]
         then
-            XFSM "${TMP2}"
+            XFSM "${TMP2}" "${TMP1}"
         else            
 		    mkfs -F -v -t ${FILESYSTEM} ${TMP2} 
         fi
@@ -37,7 +42,7 @@ do
 		mkdir -pv /mnt${TMP1}
         if [ "${FILESYSTEM}" == "XFS" -o "$FILESYSTEM" == "xfs" ]
         then
-            XFSM "${TMP2}"
+            XFSM "${TMP2}" "${TMP1}"
         else
 		    mkfs -F -v -t ${FILESYSTEM} ${TMP2}
         fi
