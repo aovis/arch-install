@@ -6,6 +6,10 @@ function XFSM()
 
 echo -e "\003[31m input filesystem ext4 or xfs (like xfs) \033[0m" 
 read -p "inptu filesystem : " FILESYSTEM
+if [ "${FILESYSTEM}" == "" ]
+then
+    FILESYSTEM=ext4
+fi
 #循环读取 fdisk.sh 生成的分区信息
 for line in `cat ${PWD}/a.txt`
 do
