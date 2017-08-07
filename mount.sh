@@ -26,6 +26,7 @@ do
 		    mkfs -F -v -t ${FILESYSTEM} ${TMP2} 
         fi
 		mount -v -t ${FILESYSTEM} ${TMP2} /mnt
+        sleep 3
 	#如果是swap交换分区 格式化交启用swap交换分区
 	elif [ "$TMP1" == "swap" ];
 	then
@@ -41,6 +42,7 @@ do
 		    mkfs -F -v -t ${FILESYSTEM} ${TMP2}
         fi
 		mount -v -t ${FILESYSTEM} ${TMP2} /mnt${TMP1}
+        sleep 3
 	fi
 done
 #显示挂载信息
