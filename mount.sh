@@ -1,7 +1,7 @@
 #!/bin/bash
 function XFSM()
 {
-   mkfs.xfs -f -i size=512 -l size=128m,lazy-count=1 -d agcount=16 ${1}
+   mkfs.xfs -f -i size=512 -l size=128m,lazy-count=1 -d agcount=16 ${1} > /dev/null 2>&1
 }
 
 echo -e "\003[31m input filesystem ext4 or xfs (like xfs) \033[0m" 
