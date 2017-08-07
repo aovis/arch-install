@@ -1,9 +1,14 @@
 #!/bin/bash
 function XFSM()
 {
+    isM="M"
+    res=$(echo ${3} | grep "${isM}")
     if [ "${2}" == "/boot" ]
     then
         mkfs.xfs -f ${1} > /dev/null 2>&1
+    elif [ "${res}" == "" -a ${3} -le 2 ]
+    then
+        mkfs.xfs -f -i size=512 -l size=64m,lazy-count=1 -d agcount=16 ${1} > /dev/null 2>&1
     else
         mkfs.xfs -f -i size=512 -l size=128m,lazy-count=1 -d agcount=16 ${1} > /dev/null 2>&1
     fi
@@ -20,13 +25,14 @@ for line in `cat ${PWD}/a.txt`
 do
 	#去除双引号并分割字符串 存放到TMP1和TMP2中
 	TMP1=`echo ${line} | sed 's/\"//g' | cut -d ":" -f1`
-	TMP2=`echo ${line} | sed 's/\"//g' | cut -d ":" -f2`
+	TMP2=`echo ${line} | cut -d ":" -f2`
+    TMP3=`echo ${line} | sed 's/G//g' | cut -d ":" -f3`
 	#如果是根分区 直接格式化 交挂载到/mnt目录下
 	if [ "$TMP1" == "/" ];
 	then 
         if [ "$FILESYSTEM" == "XFS" -o "$FILESYSTEM" == "xfs" ]
         then
-            XFSM "${TMP2}" "${TMP1}"
+            XFSM "${TMP2}" "${TMP1}" "${TMP3}"
         else            
 		    mkfs -F -v -t ${FILESYSTEM} ${TMP2} > /dev/null 2>&1
         fi
@@ -42,7 +48,7 @@ do
 		mkdir -pv /mnt${TMP1}
         if [ "${FILESYSTEM}" == "XFS" -o "$FILESYSTEM" == "xfs" ]
         then
-            XFSM "${TMP2}" "${TMP1}"
+            XFSM "${TMP2}" "${TMP1}" "${TMP3}"
         else
 		    mkfs -F -v -t ${FILESYSTEM} ${TMP2} > /dev/null 2>&1
         fi

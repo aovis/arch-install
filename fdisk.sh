@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 ##fdisk
 #DEVICE_COUNT 存放分区编号
 DEVICE_COUNT=""
@@ -133,10 +133,10 @@ then
 					#进行分区
 					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT" > /dev/null 2>&1
 					#将记录追加到a.txt
-					echo "$s:$DISK$DEVICE_COUNT" >> a.txt
+					echo "$s:$DISK$DEVICE_COUNT:$Size" >> a.txt
 				else   #分区号不为4  直接进行分区并将记录追加到a.txt
 					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT" > /dev/null 2>&1
-					echo "$s:$DISK$DEVICE_COUNT" >> a.txt
+					echo "$s:$DISK$DEVICE_COUNT:$Size" >> a.txt
 				fi
 
 			else #对其他挂载点进行操作
@@ -147,10 +147,10 @@ then
 					Extdisk "$DISK" >/dev/null 2>&1
 					count_device "$DISK"
 					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT" > /dev/null 2>&1
-					echo "$s:$DISK$DEVICE_COUNT" >> a.txt
+					echo "$s:$DISK$DEVICE_COUNT:$Size" >> a.txt
 				else
 					fdisk_run "$DISK" "$Size" "$DEVICE_COUNT" > /dev/null 2>&1
-					echo "$s:$DISK$DEVICE_COUNT" >> a.txt
+					echo "$s:$DISK$DEVICE_COUNT:$Size" >> a.txt
 				fi
 			fi
 
@@ -175,7 +175,7 @@ then
 			echo "$DEVICE_COUNT"
 		    fdisk_run "$DISK" "$Size" "$DEVICE_COUNT"
 		fi
-		echo "swap:$DISK$DEVICE_COUNT" >> a.txt
+		echo "swap:$DISK$DEVICE_COUNT:$Size" >> a.txt
 	fi
 fi
 #列出分区信息
