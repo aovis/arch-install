@@ -1,7 +1,7 @@
 #!/bin/bash
 function XFSM()
 {
-   mkfs.xfs -f -i size=512 -l size=128m,lazy-count=1 -d agcount=16 ${1} > /dev/null 2>&1
+   mkfs.xfs -f -i size=512 -l size=128m,lazy-count=1 -d agcount=16 ${1}
 }
 
 echo -e "\003[31m input filesystem ext4 or xfs (like xfs) \033[0m" 
@@ -23,7 +23,7 @@ do
         then
             XFSM "${TMP2}"
         else            
-		    mkfs -F -v -t ext4 ${TMP2} > /dev/null 2>&1
+		    mkfs -F -v -t ${FILESYSTEM} ${TMP2} 
         fi
 		mount -v -t ${FILESYSTEM} ${TMP2} /mnt
 	#如果是swap交换分区 格式化交启用swap交换分区
@@ -38,7 +38,7 @@ do
         then
             XFSM "${TMP2}"
         else
-		    mkfs -F -v -t ext4 ${TMP2} > /dev/null 2>&1
+		    mkfs -F -v -t ${FILESYSTEM} ${TMP2}
         fi
 		mount -v -t ${FILESYSTEM} ${TMP2} /mnt${TMP1}
 	fi
