@@ -183,14 +183,13 @@ if [ "$ISCN" == "" ];
 then
 echo "[archlinuxcn]
 SigLevel = Optional TrustedOnly
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/\$arch" >> /etc/pacman.conf
+Server = https://mirrors.ustc.edu.cn/archlinuxcn/$arch" >> /etc/pacman.conf
 fi
 TMP="n"
 #安装Xwindows 和 一些必要的软件
 while [ "$TMP" == "n" ] || [ "$TMP" == "N" ];
 do
 	pacman -Syy && pacman -S --noconfirm archlinuxcn-keyring yaourt
-    echo "111111111111111111111111111111"
 	pacman -S --noconfirm networkmanager xorg-server xorg-xinit firefox wqy-zenhei
 	systemctl enable NetworkManager
 
