@@ -183,7 +183,7 @@ if [ "$ISCN" == "" ];
 then
 echo "[archlinuxcn]
 SigLevel = Optional TrustedOnly
-Server = https://mirrors.ustc.edu.cn/archlinuxcn/$arch" >> /etc/pacman.conf
+Server = https://mirrors.ustc.edu.cn/archlinuxcn\/$arch" >> /etc/pacman.conf
 fi
 TMP="n"
 #安装Xwindows 和 一些必要的软件
